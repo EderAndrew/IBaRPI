@@ -1,18 +1,32 @@
 /* eslint-disable no-alert */
+/* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
 import React, { useEffect } from 'react';
 import {connect} from 'react-redux';
-import {View, Text, StyleSheet, TouchableOpacity, StatusBar, TextInput, Keyboard} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  StatusBar,
+  TextInput,
+  Keyboard,
+  ImageBackground,
+} from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 import C_Button from '../../components/buttons.component';
 import { db_register } from '../../dbFirebase/firebaseActions'
 
 const Cadastrar = (props) => {
   useEffect(()=>{
-    if (props.status === 1){
-      Keyboard.dismiss();
-      props.navigation.navigate('MainBottom')
+    if (props.email !== null && props.pwd !== null ) {
+      if (props.status === 1){
+        Keyboard.dismiss();
+        props.navigation.navigate('MainBottom')
+      }
+    } else {
+      alert('Precisa preencher os campos');
     }
   })
 
@@ -20,7 +34,7 @@ const Cadastrar = (props) => {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF"/>
       <View style={styles.margem}>
-        <TouchableOpacity onPress={()=>props.navigation.goBack()}>
+        <TouchableOpacity onPress={()=>props.navigation.navigate('Login')}>
           <Icon name="arrow-left-l" size={60} color="#000" />
         </TouchableOpacity>
         <Text style={styles.title}>Cadastrar</Text>
@@ -41,11 +55,15 @@ const Cadastrar = (props) => {
           />
         </View>
         <C_Button
-          backColor={{ backgroundColor: '#F2B705' }}
+          backColor={{ backgroundColor: '#CC4C12' }}
           title="Cadastrar"
           onPress={()=>props.signup(props.email, props.pwd)}
         />
       </View>
+      <Text style={styles.info}> Já tem uma conta?</Text>
+      <TouchableOpacity style={styles.b_info}onPress={()=>props.navigation.navigate('Acessar')}>
+        <Text style={styles.b_title}>Acessar</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -71,6 +89,19 @@ const styles = StyleSheet.create({
       borderColor: '#1A0F1F',
       fontSize: 18,
       marginBottom: '10%',
+    },
+    info: {
+      fontSize: 16,
+      alignSelf: 'center',
+    },
+    b_info: {
+      alignSelf: 'center',
+    },
+    b_title: {
+      fontSize: 18,
+      color: '#710DC2',
+      fontWeight: 'bold',
+      fontFamily: 'Roboto-Bold',
     },
 });
 

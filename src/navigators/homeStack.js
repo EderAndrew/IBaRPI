@@ -1,14 +1,17 @@
+/* eslint-disable prettier/prettier */
+/* eslint-disable semi */
 import React from 'react'
-import {connect} from 'react-redux'
-import { View, Text, StyleSheet } from 'react-native'
+import { createStackNavigator } from '@react-navigation/stack';
+import Home from '../screens/stackScreens/home'
 
-const HomeStack = (props) => {
-    return(
-        <View>
-            <Text>Tela HomeStack</Text>
-            <Text>Seja bem vindo</Text>
-        </View>
-    )
-}
+const Stack = createStackNavigator();
 
-export default HomeStack
+const HomeStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Home" component={Home} />
+    </Stack.Navigator>
+  );
+};
+
+export default HomeStack;

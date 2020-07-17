@@ -3,22 +3,19 @@
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import { connect } from 'react-redux' //Conectar no redux
-import { fireLogin, fireMsg } from '../../dbFirebase/firebaseActions';
-import {View, Text, StyleSheet, ImageBackground, StatusBar, Image} from 'react-native';
+import {View, Text, StyleSheet, StatusBar, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import C_Button from '../../components/buttons.component';
 
 const Login = (props) => {
   const facebookIcon = <Icon name="facebook" size={22} color="#FFF" />
   return (
-    <ImageBackground source={require('../../../assets/img/trigo.jpg')} style={{width: '100%', height: '100%'}}>
-    <StatusBar barStyle="light-content" backgroundColor="#9194a5"/>
     <View style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#FFF"/>
       <View style={styles.logo}>
         <Image source={require('../../../assets/img/logo.png')} style={{width: 120, height: 80}}/>
         <Text style={styles.title}>IBaRPI</Text>
-        <Text style={styles.descricao}>Igreja Batista Regular em Parque Ipê</Text>
+        <Text style={styles.descricao}>Igreja Batista Regular Parque Ipê</Text>
       </View>
       <C_Button
         backColor={{ backgroundColor: 'blue' }}
@@ -27,24 +24,24 @@ const Login = (props) => {
         onPress={()=>{}}
       />
       <C_Button
-        backColor={{ backgroundColor: '#F2B705' }}
+        backColor={{ backgroundColor: '#CC4C12' }}
         title="Fazer cadastro"
         onPress={()=> props.navigation.navigate('Cadastrar')}
       />
       <C_Button
-        backColor={{ backgroundColor: '#04D94F' }}
+        backColor={{ backgroundColor: '#710DC2' }}
         title="Fazer Acesso"
         onPress={()=> props.navigation.navigate('Acessar')}
       />
-      <Text>{props.msg}</Text>
+      <Text style={styles.version}>Versão: 1.0</Text>
     </View>
-    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#FFF'
   },
   logo: {
     alignItems: 'center',
@@ -60,17 +57,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Roboto-Regular',
   },
+  version: {
+    marginTop: '42%',
+    fontSize: 12,
+    color: '#ccc'
+  },
 });
 
-//ler
-const mapStateToProps = (state) => {
-  return {
-  };
-};
-//executar, realizar mudança
-const mapDispatchToProps = (dispatch) => {
-  return {
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

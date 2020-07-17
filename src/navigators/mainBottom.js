@@ -18,7 +18,7 @@ const iconPlus = <Icon name="plus-circle" size={22} color="#FFF"/>;
 
 function MainBottom() {
   return (
-    <Tab.Navigator screenOptions={{tabBarColor: '#04D94F'}}>
+    <Tab.Navigator screenOptions={{tabBarColor: '#710DC2'}}>
       <Tab.Screen
         name="Home"
         component={HomeStack}
@@ -35,7 +35,7 @@ function MainBottom() {
         options={{ tabBarIcon: () => iconPray }}
       />
       <Tab.Screen
-        name="Doação"
+        name="Ofertas"
         component={Doacao}
         options={{ tabBarIcon: () => iconHeart }}
       />
