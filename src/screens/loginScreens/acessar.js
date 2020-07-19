@@ -1,6 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import AsyncStorage from '@react-native-community/async-storage';
 import {connect} from 'react-redux';
 import {
   View,
@@ -10,18 +12,31 @@ import {
   StatusBar,
   TextInput,
   Keyboard,
+  Switch,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 import C_Button from '../../components/buttons.component';
-import { db_sigin } from '../../dbFirebase/firebaseActions'
+import { db_sigin, db_getName } from '../../dbFirebase/firebaseActions'
 
 const Acessar = (props) => {
   useEffect(()=>{
-      if (props.status === 1){
-        Keyboard.dismiss();
-        props.navigation.navigate('MainBottom')
-      }
-  })
+    if (props.status === 1){
+      Keyboard.dismiss();
+      props.navigation.navigate('MainBottom')
+    }
+  }, [props.status])
+
+  const [value, setValue] = useState(false)
+  const [newStatus, setNewStatus] = useState(0);
+
+  const valueStorage = async () => {
+    setValue(!value);
+    if (props.status === 1 && value === true) {
+      //gravar no AsyncStorage
+      setNewStatus(props.status)
+      await AsyncStorage.setItem('@props.status', newStatus);
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -45,6 +60,19 @@ const Acessar = (props) => {
             placeholder="Senha"
             value={props.pwd}
             onChangeText={t => props.setPwd(t)}
+          />
+          <View style={styles.card_switch}>
+            <Text>Me manter Logado</Text>
+            <TouchableOpacity onPress={()=>alert('Esqueci minha senha')}>
+              <Text style={styles.forget_pwd}>Esqueci minha senha!</Text>
+            </TouchableOpacity>
+          </View>
+          <Switch
+            style={styles.switch}
+            trackColor={{ false: "red", true: "blue" }}
+            thumbColor={value ? "blue" : "red"}
+            value={value}
+            onValueChange={valueStorage}
           />
         </View>
         <C_Button
@@ -96,14 +124,25 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontFamily: 'Roboto-Bold',
     },
+    card_switch: {
+      flexDirection:'row',
+      justifyContent: 'space-between',
+    },
+    forget_pwd: {
+      color: 'red',
+    },
+    switch: {
+      alignSelf: 'flex-start',
+    },
 });
 
 const mapStateToProps = state => {
   return {
+    uid: state.user.uid,
+    name: state.user.name,
     email: state.user.email,
     pwd: state.user.pwd,
     status: state.user.status,
-    uid: state.user.uid,
   }
 }
 
@@ -112,6 +151,7 @@ const mapDispatchToProps = dispatch => {
     setEmail: (email) => dispatch({ type:'SET_EMAIL', payload: { email } }),
     setPwd: (pwd) => dispatch({ type:'SET_PWD', payload: { pwd } }),
     signin: (email, pwd) => db_sigin(email, pwd, dispatch),
+    getName: (name) => db_getName(name, dispatch),
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Acessar);

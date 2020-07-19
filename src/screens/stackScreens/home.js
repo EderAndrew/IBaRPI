@@ -1,18 +1,24 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, { useEffect } from 'react';
+import { connect } from 'react-redux';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import BannerComponent from '../../components/videos/banner.component';
 import Card from '../../components/homeComponents/card.component';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { db_getName } from '../../dbFirebase/firebaseActions';
 
-const Home = () => {
+const Home = (props) => {
+    useEffect(()=>{
+        props.getName(props.uid);
+    },[]);
+
     return (
         <View style={styles.container}>
             <ScrollView>
                 <BannerComponent />
                 <View style={styles.feed}>
-                    <Text style={styles.feed_name}>Bom dia, Jhon Doe</Text>
+                    <Text style={styles.feed_name}>Bom dia, {props.name}</Text>
                     <Text style={styles.feed_date}>01/01/2020</Text>
                 </View>
                 <Card />
@@ -60,7 +66,7 @@ const styles = StyleSheet.create({
     },
     bg_Warning: {
         width: 230,
-        height: 120,
+        height: 160,
         justifyContent:'center',
         marginRight: '3%',
     },
@@ -92,4 +98,16 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Home;
+const mapStateToProps = state => {
+    return {
+        uid: state.user.uid,
+        name: state.user.name,
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getName: (uid) => db_getName(uid, dispatch),
+    };
+};
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

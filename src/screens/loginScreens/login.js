@@ -2,12 +2,19 @@
 /* eslint-disable comma-dangle */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable prettier/prettier */
-import React from 'react';
-import {View, Text, StyleSheet, StatusBar, Image} from 'react-native';
+import React, { useEffect } from 'react';
+import {connect} from 'react-redux'
+import {View, Text, StyleSheet, StatusBar, Image, BackHandler} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import C_Button from '../../components/buttons.component';
 
 const Login = (props) => {
+  useEffect(()=>{
+    if (props.status === 1){
+      props.navigation.navigate('MainBottom')
+    }
+  },[])
+  
   const facebookIcon = <Icon name="facebook" size={22} color="#FFF" />
   return (
     <View style={styles.container}>
@@ -64,4 +71,10 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Login;
+const mapStateToProps = state => {
+  return {
+    status: state.user.status,
+  }
+}
+
+export default connect(mapStateToProps)(Login);

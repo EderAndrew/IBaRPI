@@ -2,6 +2,7 @@
 import React from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import Ionic from 'react-native-vector-icons/Ionicons';
 import HomeStack from '../navigators/homeStack';
 import Biblia from '../screens/bottomScreens/biblia';
 import Oracao from '../screens/bottomScreens/oracao';
@@ -14,7 +15,7 @@ const iconHome = <Icon name="home" size={22} color="#FFF"/>;
 const iconBible = <Icon name="book" size={22} color="#FFF" />;
 const iconPray = <Icon name="praying-hands" size={19} color="#FFF" />;
 const iconHeart = <Icon name="hand-holding-heart" size={22} color="#FFF" />;
-const iconPlus = <Icon name="plus-circle" size={22} color="#FFF"/>;
+const iconPlus = <Ionic name="menu" size={26} color="#FFF"/>;
 
 function MainBottom() {
   return (

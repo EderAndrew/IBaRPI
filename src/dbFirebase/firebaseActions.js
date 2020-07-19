@@ -15,7 +15,7 @@ export const db_register = async (email, pwd, dispatch) => {
       //Cria uma coleção de usuário e insere um id no documento
       firebase.firestore().collection('users').doc(uid).set({name: 'Membro'});
       //insere o id no reducer
-      return dispatch({ type: 'SET_UID', payload: { uid } });
+      return dispatch({ type: 'SET_UID', payload: { uid }});
     })
     .catch(error=>{
       alert(error.code);
@@ -35,14 +35,32 @@ export const db_sigin = async (email, pwd, dispatch) => {
       return dispatch({ type: 'SET_UID', payload: { uid } });
     })
     .catch(error=>{
-      alert(error.code);
+      switch (error.code){
+        case 'auth/user-not-found':
+          alert('Usuário não encontrado. Tente novamente');
+          break;
+        case 'auth/email-already-in-use':
+          alert('Esse Email ja esta cadastrado');
+          break;
+      }
     });
   } else {
-    alert('Preencha os campos de email e Senha');
+    alert('Preencha os campos de email e/ou Senha');
   }
- 
 };
+//Pegar nome do usuário
+export const db_getName = async (uid, dispatch) => {
+  try {
+    await firebase.firestore().collection('users').doc(uid).get()
+    .then(snapshot=>{
+      let name = snapshot.data().name;
 
+      return dispatch({type: 'SET_NAME', payload: { name }});
+    });
+  } catch (error){
+    alert(error.code);
+  }
+};
 //Action de Mensagem
 export const fireMsg = (msg, dispatch) => {
     return dispatch({ type: 'SET_MSG', payload: { msg } });
