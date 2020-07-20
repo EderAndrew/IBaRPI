@@ -4,6 +4,7 @@
 import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import '@react-native-firebase/firestore';
+import '@react-native-firebase/storage';
 
 //Action de Cadastro
 export const db_register = async (email, pwd, dispatch) => {
@@ -48,6 +49,7 @@ export const db_sigin = async (email, pwd, dispatch) => {
     alert('Preencha os campos de email e/ou Senha');
   }
 };
+
 //Pegar nome do usuário
 export const db_getName = async (uid, dispatch) => {
   try {
@@ -61,7 +63,23 @@ export const db_getName = async (uid, dispatch) => {
     alert(error.code);
   }
 };
+
 //Action de Mensagem
 export const fireMsg = (msg, dispatch) => {
     return dispatch({ type: 'SET_MSG', payload: { msg } });
+};
+
+//Action de pegar imagem
+export const get_image = async (callback) => {
+  await firebase.storage().ref().child('avisos/culto.png').getDownloadURL().then(callback);
+};
+
+//Get lis of Images
+export const get_allImages = async (callback) => {
+  await firebase.storage().ref().child('avisos').listAll()
+  .then(res => {
+    res.items.forEach(async itemRef=>{
+      await firebase.storage().ref().child(`${itemRef.path}`).getDownloadURL().then(callback);
+    });
+  });
 };

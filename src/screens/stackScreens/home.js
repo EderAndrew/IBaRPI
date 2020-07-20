@@ -1,46 +1,53 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import {View, Text, StyleSheet, ImageBackground} from 'react-native';
+import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
 import BannerComponent from '../../components/videos/banner.component';
 import Card from '../../components/homeComponents/card.component';
-import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { db_getName } from '../../dbFirebase/firebaseActions';
+import { db_getName, get_image, get_allImages } from '../../dbFirebase/Sistema';
+import CardWarning from '../../components/homeComponents/warning.component';
 
 const Home = (props) => {
+    let data = [...props.images];
+
     useEffect(()=>{
         props.getName(props.uid);
-    },[]);
+
+        get_image((url)=>{
+            props.getImage({uri: url});
+
+        });
+
+        get_allImages(url=>{
+            data.push({uri: url});
+            props.getAllImages(data);
+        });
+    },[props.getName]);
 
     return (
         <View style={styles.container}>
-            <ScrollView>
-                <BannerComponent />
-                <View style={styles.feed}>
-                    <Text style={styles.feed_name}>Bom dia, {props.name}</Text>
-                    <Text style={styles.feed_date}>01/01/2020</Text>
+            <BannerComponent
+                uri={props.image}
+            />
+            <View style={styles.feed}>
+                <Text style={styles.feed_name}>Bom dia, {props.name}</Text>
+                <Text style={styles.feed_date}>01/01/2020</Text>
+            </View>
+            <Card />
+            <View style={styles.card_warning}>
+                <View style={styles.warning_title}>
+                    <Text style={styles.warning_text}>Avisos</Text>
+                    <Icon style={styles.warning_icon} name="warning" size={22} color="#710DC2" />
                 </View>
-                <Card />
-                <View style={styles.card_warning}>
-                    <View style={styles.warning_title}>
-                        <Text style={styles.warning_text}>Avisos</Text>
-                        <Icon style={styles.warning_icon} name="warning" size={22} color="black" />
-                    </View>
-                    <View style={styles.remove}>
-                        <TouchableOpacity>
-                            <ImageBackground style={styles.bg_Warning} source={{uri: 'https://images.unsplash.com/photo-1594987121044-d21eb351dc22?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80'}}>
-                                <Text style={styles.txt_warning}>Avisos</Text>
-                            </ImageBackground>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                            <ImageBackground style={styles.bg_Warning} source={{uri: 'https://images.unsplash.com/photo-1594987121044-d21eb351dc22?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=750&q=80'}}>
-                                <Text style={styles.txt_warning}>Avisos</Text>
-                            </ImageBackground>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-            </ScrollView>
+                <FlatList
+                  horizontal
+                  keyExtractor={item=>item.id}
+                  data={props.images}
+                  renderItem={({item})=><CardWarning uri={item.uri} />}
+                />
+            </View>
         </View>
     );
 };
@@ -64,19 +71,8 @@ const styles = StyleSheet.create({
     feed_date: {
         marginRight: '5%',
     },
-    bg_Warning: {
-        width: 230,
-        height: 160,
-        justifyContent:'center',
-        marginRight: '3%',
-    },
-    txt_warning: {
-        fontSize: 34,
-        fontWeight: 'bold',
-        color: 'rgba(255, 255, 255, 0.5)',
-        alignSelf: 'center',
-    },
     card_warning: {
+        flex:1,
         width: '100%',
         marginLeft: '5%',
         marginTop: '3%',
@@ -87,14 +83,16 @@ const styles = StyleSheet.create({
     },
     warning_text: {
         fontSize: 26,
-        marginRight: '5%',
+        marginRight: '3%',
         fontWeight: 'bold',
+        color: '#710DC2',
     },
     warning_icon: {
-        marginTop: '2%',
+        marginTop: '2.8%',
     },
-    remove: {
-        flexDirection: 'row',
+    foto: {
+        width: 300,
+        height: 300,
     },
 });
 
@@ -102,12 +100,17 @@ const mapStateToProps = state => {
     return {
         uid: state.user.uid,
         name: state.user.name,
+        videosData: state.y_data.videosData,
+        images: state.user.images,
+        image: state.user.image,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         getName: (uid) => db_getName(uid, dispatch),
+        getImage: (image) => dispatch({ type: 'GET_IMAGE', payload: {image} }),
+        getAllImages: (images) => dispatch({ type: 'GET_ALLIMAGES', payload: { images } }),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

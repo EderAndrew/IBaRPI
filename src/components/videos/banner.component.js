@@ -3,17 +3,16 @@ import React from 'react';
 import {View, Text, StyleSheet, ImageBackground} from 'react-native';
 import Avatar from '../avatar/avatar.component';
 
-const BannerComponent = () => {
-    const image = 'https://images.unsplash.com/photo-1594794031248-c58cbc04fd13?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80'
+const BannerComponent = (props) => {
     return (
-        <ImageBackground source={{uri: image}} style={{width:'100%', height: 300}}>
+        <ImageBackground source={props.uri} style={{width:'100%', height: 300}}>
             <View>
                 <Avatar />
             </View>
             <View style={styles.container}>
                 <View style={styles.banner_title}>
-                    <Text style={styles.title}>Titulo da Imagem</Text>
-                    <Text style={styles.description}>Descrição da imagem</Text>
+                    <Text style={styles.title}>Culto de Louvor e Adoração</Text>
+                    <Text style={styles.description}>Todos os Domingos as 19hs</Text>
                 </View>
             </View>
         </ImageBackground>

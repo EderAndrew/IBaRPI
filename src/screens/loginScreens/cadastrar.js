@@ -12,11 +12,10 @@ import {
   StatusBar,
   TextInput,
   Keyboard,
-  ImageBackground,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 import C_Button from '../../components/buttons.component';
-import { db_register } from '../../dbFirebase/firebaseActions'
+import { db_register } from '../../dbFirebase/Sistema'
 
 const Cadastrar = (props) => {
   useEffect(()=>{

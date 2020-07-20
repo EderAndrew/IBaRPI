@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 import C_Button from '../../components/buttons.component';
-import { db_sigin, db_getName } from '../../dbFirebase/firebaseActions'
+import { db_sigin, db_getName } from '../../dbFirebase/Sistema'
 
 const Acessar = (props) => {
   useEffect(()=>{

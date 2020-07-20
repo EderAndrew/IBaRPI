@@ -6,6 +6,8 @@ const initialState = {
   email: '',
   pwd: '',
   msg: '',
+  images: [],
+  image:null,
 };
 
 export default (state = initialState, action) => {
@@ -20,6 +22,10 @@ export default (state = initialState, action) => {
             return {...state, pwd:action.payload.pwd};
         case 'SET_MSG':
             return {...state, msg:action.payload.msg};
+        case 'GET_ALLIMAGES':
+            return { ...state, images:action.payload.images };
+        case 'GET_IMAGE':
+            return { ...state, image:action.payload.image };
     }
 
     return state;
