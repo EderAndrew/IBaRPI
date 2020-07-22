@@ -17,11 +17,14 @@ const Login = (props) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF"/>
-      <View style={styles.logo}>
-        <Image source={require('../../../assets/img/logo.png')} style={{width: 120, height: 80}}/>
-        <Text style={styles.title}>IBaRPI</Text>
-        <Text style={styles.descricao}>Igreja Batista Regular Parque Ipê</Text>
+      <View style={styles.container_1}>
+        <View style={styles.logo}>
+          <Image source={require('../../../assets/img/logo.png')} style={{width: 120, height: 80}}/>
+          <Text style={styles.title}>IBaRPI</Text>
+          <Text style={styles.descricao}>Igreja Batista Regular Parque Ipê</Text>
+        </View>
       </View>
+      <View style={styles.container_2}>
       <C_Button
         backColor={{ backgroundColor: 'blue' }}
         Icon={facebookIcon}
@@ -39,6 +42,7 @@ const Login = (props) => {
         onPress={()=> props.navigation.navigate('Acessar')}
       />
       <Text style={styles.version}>Versão: 1.0</Text>
+      </View>
     </View>
   );
 };
@@ -47,6 +51,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#FFF'
+  },
+  container_1:{
+    flex: 1,
+    justifyContent: 'center',
+  },
+  container_2: {
+    flex: 1,
   },
   logo: {
     alignItems: 'center',

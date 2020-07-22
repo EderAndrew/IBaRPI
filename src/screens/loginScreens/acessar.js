@@ -41,11 +41,13 @@ const Acessar = (props) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF"/>
-      <View style={styles.margem}>
+      <View style={styles.container_1}>
         <TouchableOpacity onPress={()=>props.navigation.navigate('Login')}>
           <Icon name="arrow-left-l" size={60} color="#000" />
         </TouchableOpacity>
         <Text style={styles.title}>Acessar</Text>
+      </View>
+      <View style={styles.container_2}>
         <View style={styles.formulario}>
           <TextInput
             keyboardType="email-address"
@@ -75,16 +77,18 @@ const Acessar = (props) => {
             onValueChange={valueStorage}
           />
         </View>
+      </View>
+      <View style={styles.container_3}>
         <C_Button
           backColor={{ backgroundColor: '#710DC2' }}
           title="Acessar"
           onPress={()=>props.signin(props.email, props.pwd)}
         />
+        <Text style={styles.info}>Ainda não tem uma conta?</Text>
+        <TouchableOpacity style={styles.b_info}onPress={()=>props.navigation.navigate('Cadastrar')}>
+          <Text style={styles.b_title}>Cadastrar</Text>
+        </TouchableOpacity>
       </View>
-      <Text style={styles.info}>Ainda não tem uma conta?</Text>
-      <TouchableOpacity style={styles.b_info}onPress={()=>props.navigation.navigate('Cadastrar')}>
-        <Text style={styles.b_title}>Cadastrar</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -94,8 +98,18 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFF',
     },
-    margem: {
-        marginHorizontal: '5%',
+    container_1:{
+      flex: 1,
+      marginHorizontal:'5%',
+    },
+    container_2: {
+      flex: 2,
+      marginHorizontal:'5%',
+    },
+    container_3: {
+      flex: 2,
+      justifyContent: 'center',
+      marginHorizontal:'5%',
     },
     title: {
         fontSize: 28,

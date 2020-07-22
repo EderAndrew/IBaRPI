@@ -12,6 +12,7 @@ import {
   StatusBar,
   TextInput,
   Keyboard,
+  KeyboardAvoidingView
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 import C_Button from '../../components/buttons.component';
@@ -32,11 +33,13 @@ const Cadastrar = (props) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF"/>
-      <View style={styles.margem}>
+      <View style={styles.container_1}>
         <TouchableOpacity onPress={()=>props.navigation.navigate('Login')}>
           <Icon name="arrow-left-l" size={60} color="#000" />
         </TouchableOpacity>
         <Text style={styles.title}>Cadastrar</Text>
+      </View>
+      <View style={styles.container_2}>
         <View style={styles.formulario}>
           <TextInput
             keyboardType="email-address"
@@ -53,16 +56,18 @@ const Cadastrar = (props) => {
             onChangeText={t => props.setPwd(t)}
           />
         </View>
+      </View>
+      <View style={styles.container_3}>
         <C_Button
           backColor={{ backgroundColor: '#CC4C12' }}
           title="Cadastrar"
           onPress={()=>props.signup(props.email, props.pwd)}
         />
+        <Text style={styles.info}> Já tem uma conta?</Text>
+        <TouchableOpacity style={styles.b_info}onPress={()=>props.navigation.navigate('Acessar')}>
+          <Text style={styles.b_title}>Acessar</Text>
+        </TouchableOpacity>
       </View>
-      <Text style={styles.info}> Já tem uma conta?</Text>
-      <TouchableOpacity style={styles.b_info}onPress={()=>props.navigation.navigate('Acessar')}>
-        <Text style={styles.b_title}>Acessar</Text>
-      </TouchableOpacity>
     </View>
   );
 };
@@ -71,6 +76,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#FFF',
+    },
+    container_1: {
+      flex: 1,
+      marginHorizontal: '5%',
+    },
+    container_2: {
+      flex: 2,
+      marginHorizontal: '5%',
+    },
+    container_3: {
+      flex: 2,
+      justifyContent: 'center',
+      marginHorizontal: '5%',
     },
     margem: {
         marginHorizontal: '5%',

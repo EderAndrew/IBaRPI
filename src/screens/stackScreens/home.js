@@ -1,13 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import {View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
 import BannerComponent from '../../components/videos/banner.component';
 import Card from '../../components/homeComponents/card.component';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import { db_getName, get_image, get_allImages } from '../../dbFirebase/Sistema';
 import CardWarning from '../../components/homeComponents/warning.component';
+import CardDate from '../../components/homeComponents/cardDate.component';
+import Titulos from '../../components/homeComponents/titulos.component';
 
 const Home = (props) => {
     let data = [...props.images];
@@ -20,34 +21,50 @@ const Home = (props) => {
 
         });
 
-        get_allImages(url=>{
-            data.push({uri: url});
+        get_allImages((url, id = url)=>{
+            data.push({uri: url, id: id});
             props.getAllImages(data);
         });
     },[props.getName]);
 
     return (
         <View style={styles.container}>
+            <ScrollView>
             <BannerComponent
                 uri={props.image}
             />
-            <View style={styles.feed}>
-                <Text style={styles.feed_name}>Bom dia, {props.name}</Text>
-                <Text style={styles.feed_date}>01/01/2020</Text>
-            </View>
+            <CardDate name={props.name}/>
             <Card />
             <View style={styles.card_warning}>
-                <View style={styles.warning_title}>
-                    <Text style={styles.warning_text}>Avisos</Text>
-                    <Icon style={styles.warning_icon} name="warning" size={22} color="#710DC2" />
-                </View>
+                <Titulos
+                    title="Avisos"
+                    icon="warning"
+                />
                 <FlatList
                   horizontal
-                  keyExtractor={item=>item.id}
                   data={props.images}
                   renderItem={({item})=><CardWarning uri={item.uri} />}
+                  keyExtractor={item=>item.id}
                 />
             </View>
+            <View style={styles.card_videos}>
+                <Titulos
+                    title="Vídeos"
+                    icon="play-circle"
+                />
+                <View style={styles.card_Videos}>
+                 <View style={styles.video}>
+                    <Text>Videos</Text>
+                 </View>
+                 <View style={styles.video}>
+                    <Text>Videos</Text>
+                 </View>
+                 <View style={styles.video}>
+                    <Text>Videos</Text>
+                 </View>
+                </View>
+            </View>
+            </ScrollView>
         </View>
     );
 };
@@ -57,42 +74,26 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFF',
     },
-    feed: {
-        width:'100%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: '2%',
-    },
-    feed_name: {
-        marginLeft: '5%',
-        fontSize: 16,
-        fontWeight: 'bold',
-    },
-    feed_date: {
-        marginRight: '5%',
-    },
     card_warning: {
         flex:1,
         width: '100%',
         marginLeft: '5%',
         marginTop: '3%',
     },
-    warning_title: {
-        flexDirection: 'row',
-        alignContent: 'center',
+    card_videos: {
+        width: '100%',
+        marginLeft: '5%',
+        marginTop: '3%',
     },
-    warning_text: {
-        fontSize: 26,
-        marginRight: '3%',
-        fontWeight: 'bold',
-        color: '#710DC2',
+    card_Videos: {
+        flex: 1,
+        flexDirection:'row',
     },
-    warning_icon: {
-        marginTop: '2.8%',
-    },
-    foto: {
-        width: 300,
-        height: 300,
+    video: {
+        width: 130,
+        height: 200,
+        backgroundColor: '#DDD',
+        marginRight: 10,
     },
 });
 
