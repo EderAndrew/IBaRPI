@@ -7,7 +7,7 @@ const BannerComponent = (props) => {
     return (
         <ImageBackground source={props.uri} style={{width:'100%', height: 300}}>
             <View>
-                <Avatar />
+                <Avatar perfil={props.perfil}/>
             </View>
             <View style={styles.container}>
                 <View style={styles.banner_title}>

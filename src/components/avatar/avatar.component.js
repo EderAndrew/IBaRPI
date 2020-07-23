@@ -1,15 +1,13 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
+import {connect} from 'react-redux';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
 
-const Avatar = () => {
-    const irPraPerfil = () => {
-        alert('Foi pra perfil')
-    }
+const Avatar = (props) => {
     return (
         <View style={styles.container}>
-            <TouchableOpacity onPress={irPraPerfil}>
-                <Image style={styles.img_avatar} source={{uri: 'https://images.unsplash.com/photo-1582015752624-e8b1c75e3711?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80'}} />
+            <TouchableOpacity onPress={props.perfil}>
+                <Image style={styles.img_avatar} source={props.photo} />
             </TouchableOpacity>
         </View>
     );
@@ -28,7 +26,14 @@ const styles = StyleSheet.create({
         marginRight: '4.2%',
         marginTop: '6%',
         borderRadius: 100,
+        borderWidth: 2,
+        borderColor: '#CCC',
     },
 });
 
-export default Avatar;
+const mapStateToProps = state => {
+    return {
+        photo: state.user.photo,
+    };
+};
+export default connect(mapStateToProps)(Avatar);

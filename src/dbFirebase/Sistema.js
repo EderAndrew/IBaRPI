@@ -78,8 +78,8 @@ export const get_image = async (callback) => {
 export const get_allImages = async (callback) => {
   await firebase.storage().ref().child('avisos').listAll()
   .then(res => {
-    res.items.forEach(async itemRef=>{
-      await firebase.storage().ref().child(`${itemRef.path}`).getDownloadURL().then(callback);
+    res.items.forEach(imageRef=>{
+      imageRef.getDownloadURL().then(callback);
     });
   });
 };

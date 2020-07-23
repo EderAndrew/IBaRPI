@@ -9,30 +9,39 @@ import { db_getName, get_image, get_allImages } from '../../dbFirebase/Sistema';
 import CardWarning from '../../components/homeComponents/warning.component';
 import CardDate from '../../components/homeComponents/cardDate.component';
 import Titulos from '../../components/homeComponents/titulos.component';
+import { youtubeApi } from '../../api/youtube/youtubeApi';
 
 const Home = (props) => {
-    let data = [...props.images];
-
+    let dataImages = [...props.images];
     useEffect(()=>{
         props.getName(props.uid);
 
+        //Get one Image to banner
         get_image((url)=>{
             props.getImage({uri: url});
 
         });
-
-        get_allImages((url, id = url)=>{
-            data.push({uri: url, id: id});
-            props.getAllImages(data);
+        //get all images
+        get_allImages((snapshot) =>{
+            dataImages.push({uri: snapshot, key: snapshot});
+            props.getAllImages(dataImages);
         });
-    },[props.getName]);
+        //get all videos
+        console.log(props.images);
+    },[props.getName, props.getAllImages]);
+
+    const goToPerfil = () => {
+        props.navigation.navigate('Perfil');
+    };
 
     return (
         <View style={styles.container}>
             <ScrollView>
             <BannerComponent
                 uri={props.image}
+                perfil={goToPerfil}
             />
+            <Text>{props.videosData}</Text>
             <CardDate name={props.name}/>
             <Card />
             <View style={styles.card_warning}>
@@ -44,7 +53,7 @@ const Home = (props) => {
                   horizontal
                   data={props.images}
                   renderItem={({item})=><CardWarning uri={item.uri} />}
-                  keyExtractor={item=>item.id}
+                  keyExtractor={item=>item.key}
                 />
             </View>
             <View style={styles.card_videos}>
@@ -112,6 +121,7 @@ const mapDispatchToProps = dispatch => {
         getName: (uid) => db_getName(uid, dispatch),
         getImage: (image) => dispatch({ type: 'GET_IMAGE', payload: {image} }),
         getAllImages: (images) => dispatch({ type: 'GET_ALLIMAGES', payload: { images } }),
+        getAllVideos: (videos) => dispatch({ type: 'GET_VIDEOSDATA', payload: {videos} }),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

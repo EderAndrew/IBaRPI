@@ -7,7 +7,8 @@ const initialState = {
   pwd: '',
   msg: '',
   images: [],
-  image:null,
+  image: null,
+  photo: null,
 };
 
 export default (state = initialState, action) => {
@@ -26,7 +27,9 @@ export default (state = initialState, action) => {
             return { ...state, images:action.payload.images };
         case 'GET_IMAGE':
             return { ...state, image:action.payload.image };
+        case 'SET_PHOTO':
+            return { ...state, photo:action.payload.photo};
+        default:
+            return {...state};
     }
-
-    return state;
 };
