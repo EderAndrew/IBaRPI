@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import ImagePicker from 'react-native-image-picker';
+import { save_avatar } from '../../dbFirebase/Sistema';
 
 const Perfil = (props) => {
     const go_settings = () => {
@@ -11,16 +12,26 @@ const Perfil = (props) => {
     };
 
     const take_picture = () => {
-        let options = {
-            title: 'Selecione uma Foto',
+        const options = {
+            title: 'Mudar foto de perfil',
+            takePhotoButtonTitle: 'Tirar nova foto',
+            chooseFromLibraryButtonTitle: 'Escolha nova foto da galeria',
         };
 
         ImagePicker.showImagePicker(options, (response)=>{
             if (response.uri) {
                 let foto = {uri: response.uri};
                 props.setPhoto(foto);
+
+                save_avatar(foto, (snapshot)=>{
+                    let pct = Math.floor((snapshot.bytesTransferred /snapshot.totalBytes) * 100)
+                    props.setPct(pct);
+                },(error)=>{
+                    alert(error.message)
+                },()=>{
+                    alert('sucesso')
+                })
             }
-            console.log(props.photo);
         });
     };
     let img = {uri: 'https://images.unsplash.com/photo-1582015752624-e8b1c75e3711?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80'}
@@ -49,6 +60,7 @@ const Perfil = (props) => {
             <View style={styles.name_container}>
                 <Text style={styles.name}>Jhon Doe</Text>
             </View>
+            <Text>{`${props.pct}%`}</Text>
         </View>
     );
 };
@@ -125,13 +137,16 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
+        uid: state.user.uid,
         photo: state.user.photo,
+        pct: state.systema.pct,
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
         setPhoto: (photo) => dispatch({ type: 'SET_PHOTO', payload: {photo} }),
+        setPct: (pct) => dispatch({ type: 'SET_PCT', payload: { pct } })
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Perfil);

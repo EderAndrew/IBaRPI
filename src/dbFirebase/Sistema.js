@@ -5,6 +5,11 @@ import firebase from '@react-native-firebase/app';
 import '@react-native-firebase/auth';
 import '@react-native-firebase/firestore';
 import '@react-native-firebase/storage';
+import RNFetchBlob from 'react-native-fetch-blob';
+
+let Blob = RNFetchBlob.polyfill.Blob
+window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest;
+window.Blob = Blob
 
 //Action de Cadastro
 export const db_register = async (email, pwd, dispatch) => {
@@ -83,3 +88,34 @@ export const get_allImages = async (callback) => {
     });
   });
 };
+
+
+//Save avatar
+export const save_avatar = (photo, callback) => {
+  let uid = firebase.auth().currentUser.uid
+  let uri = photo.uri.replace('file://', '');
+  let storageRef = firebase.storage().ref()
+  let avatar = storageRef.child('users').child(`${uid}.jpg`);
+  let mime = 'image/jpeg'
+
+  try{
+    RNFetchBlob.fs.readFile(uri, 'base64')
+    .then((data)=>{
+      return RNFetchBlob.polyfill.Blob.build(data, {type:`${mime};BASE64`})
+    })
+    .then((blob)=>{
+      console.log(blob, {contentType:mime})
+      avatar.put(blob, {contentType:mime})
+      .on('state_changed', callback)
+    })
+    .then(()=>{
+      blob.closed()
+      console.log(blob)
+    })
+    .catch((error)=>{
+      console.log(error.message);
+    })
+  } catch (error) {
+    console.log(error.message)
+  }
+}

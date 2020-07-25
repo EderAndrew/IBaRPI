@@ -9,7 +9,6 @@ import { db_getName, get_image, get_allImages } from '../../dbFirebase/Sistema';
 import CardWarning from '../../components/homeComponents/warning.component';
 import CardDate from '../../components/homeComponents/cardDate.component';
 import Titulos from '../../components/homeComponents/titulos.component';
-import { youtubeApi } from '../../api/youtube/youtubeApi';
 
 const Home = (props) => {
     let dataImages = [...props.images];
@@ -26,8 +25,6 @@ const Home = (props) => {
             dataImages.push({uri: snapshot, key: snapshot});
             props.getAllImages(dataImages);
         });
-        //get all videos
-        console.log(props.images);
     },[props.getName, props.getAllImages]);
 
     const goToPerfil = () => {
