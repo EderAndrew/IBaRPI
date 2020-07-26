@@ -13,24 +13,19 @@ const Perfil = (props) => {
 
     const take_picture = () => {
         const options = {
+            noData: true,
             title: 'Mudar foto de perfil',
             takePhotoButtonTitle: 'Tirar nova foto',
             chooseFromLibraryButtonTitle: 'Escolha nova foto da galeria',
         };
 
         ImagePicker.showImagePicker(options, (response)=>{
+            console.log(response)
             if (response.uri) {
                 let foto = {uri: response.uri};
                 props.setPhoto(foto);
 
-                save_avatar(foto, (snapshot)=>{
-                    let pct = Math.floor((snapshot.bytesTransferred /snapshot.totalBytes) * 100)
-                    props.setPct(pct);
-                },(error)=>{
-                    alert(error.message)
-                },()=>{
-                    alert('sucesso')
-                })
+                save_avatar(response);
             }
         });
     };
