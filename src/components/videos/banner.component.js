@@ -5,7 +5,7 @@ import Avatar from '../avatar/avatar.component';
 
 const BannerComponent = (props) => {
     return (
-        <ImageBackground source={props.uri} style={{width:'100%', height: 300}}>
+        <ImageBackground source={props.uri} style={{width:'100%', height: 300}} resizeMode="stretch">
             <View>
                 <Avatar perfil={props.perfil}/>
             </View>

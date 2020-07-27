@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 const initialState = {
-  status:0,//status de login: 0 deslogado, 1: logado
+  status:0,
+  login: false,
   uid:'',
   name:'',
   email: '',
@@ -13,6 +14,8 @@ const initialState = {
 
 export default (state = initialState, action) => {
     switch (action.type) {
+        case 'SET_LOGIN':
+            return {...state, login:action.payload.login}
         case 'SET_UID':
             return {...state, status:1, uid:action.payload.uid};
         case 'SET_NAME':

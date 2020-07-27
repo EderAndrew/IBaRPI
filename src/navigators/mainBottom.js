@@ -19,7 +19,7 @@ const iconPlus = <Ionic name="menu" size={26} color="#FFF"/>;
 
 function MainBottom() {
   return (
-    <Tab.Navigator screenOptions={{tabBarColor: '#710DC2'}}>
+    <Tab.Navigator screenOptions={{tabBarColor: '#1F1E21'}}>
       <Tab.Screen
         name="Home"
         component={HomeStack}

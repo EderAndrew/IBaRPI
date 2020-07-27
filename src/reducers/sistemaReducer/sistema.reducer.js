@@ -3,6 +3,7 @@ const initialState = {
     date: '',
     dayMsg: '',
     pct: 0,
+    imgYoutube: [],
 };
 
 export default (state = initialState, action) => {
@@ -13,6 +14,8 @@ export default (state = initialState, action) => {
             return {...state, dayMsg:action.payload.dayMsg};
         case 'SET_PCT':
             return {...state, pct:action.payload.pct};
+        case 'GET_IMGYOUTUBE':
+            return {...state, imgYoutube:action.payload}
         default: {
             return {...state};
         }

@@ -3,6 +3,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
 import React, { useEffect } from 'react';
+import { CommonActions } from '@react-navigation/native';
 import {connect} from 'react-redux';
 import {
   View,
@@ -12,7 +13,7 @@ import {
   StatusBar,
   TextInput,
   Keyboard,
-  KeyboardAvoidingView
+  Switch,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Fontisto';
 import C_Button from '../../components/buttons.component';
@@ -20,10 +21,13 @@ import { db_register } from '../../dbFirebase/Sistema'
 
 const Cadastrar = (props) => {
   useEffect(()=>{
-    if (props.email !== null && props.pwd !== null ) {
+    if (props.nome !== null && props.email !== null && props.pwd !== null ) {
       if (props.status === 1){
         Keyboard.dismiss();
-        props.navigation.navigate('MainBottom')
+        props.navigation.dispatch(CommonActions.reset({
+          index: 0,
+          routes: [{ name: 'MainBottom' }]
+      }))
       }
     } else {
       alert('Precisa preencher os campos');
@@ -42,6 +46,13 @@ const Cadastrar = (props) => {
       <View style={styles.container_2}>
         <View style={styles.formulario}>
           <TextInput
+            style={styles.input}
+            placeholder="Nome"
+            value={props.name}
+            onChangeText={n=>props.setName(n)}
+          />
+          <TextInput
+            autoCapitalize="none"
             keyboardType="email-address"
             style={styles.input}
             placeholder="Email"
@@ -55,13 +66,22 @@ const Cadastrar = (props) => {
             value={props.pwd}
             onChangeText={t => props.setPwd(t)}
           />
+          <Text>Manter Logado?</Text>
+          <Switch
+            style={styles.switch}
+            trackColor={{ false: "red", true: "blue" }}
+            thumbColor={props.login ? "blue" : "red"}
+            value={props.login}
+            onValueChange={(login) => props.setLogin(login)}
+          />
+          <Text>{props.login.toString()}</Text>
         </View>
       </View>
       <View style={styles.container_3}>
         <C_Button
           backColor={{ backgroundColor: '#CC4C12' }}
           title="Cadastrar"
-          onPress={()=>props.signup(props.email, props.pwd)}
+          onPress={()=>props.signup(props.name, props.email, props.pwd)}
         />
         <Text style={styles.info}> Já tem uma conta?</Text>
         <TouchableOpacity style={styles.b_info}onPress={()=>props.navigation.navigate('Acessar')}>
@@ -120,10 +140,15 @@ const styles = StyleSheet.create({
       fontWeight: 'bold',
       fontFamily: 'Roboto-Bold',
     },
+    switch:{
+      alignSelf:'flex-start'
+    }
 });
 
 const mapStateToProps = state => {
   return {
+    login: state.user.login,
+    name: state.user.name,
     email: state.user.email,
     pwd: state.user.pwd,
     status: state.user.status,
@@ -133,9 +158,12 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    setLogin: (login) => dispatch({ type:'SET_LOGIN', payload: { login } }),
+    setName: (name) => dispatch({ type: 'SET_NAME', payload: { name } }),
     setEmail: (email) => dispatch({ type:'SET_EMAIL', payload: { email } }),
     setPwd: (pwd) => dispatch({ type:'SET_PWD', payload: { pwd } }),
-    signup: (email, pwd) => db_register(email, pwd, dispatch),
+    signup: (name, email, pwd) => db_register(name, email, pwd, dispatch),
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(Cadastrar);

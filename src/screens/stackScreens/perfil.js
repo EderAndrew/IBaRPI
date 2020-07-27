@@ -1,12 +1,19 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {View, Text, StyleSheet, ImageBackground, TouchableOpacity, Image} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import IconUser from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
-import { save_avatar } from '../../dbFirebase/Sistema';
+import { save_avatar, get_avatar } from '../../dbFirebase/Sistema';
 
 const Perfil = (props) => {
+    useEffect(()=>{
+        get_avatar(props.uid, async (url) => {
+            await props.setPhoto({uri: url})
+        })
+    },[])
+
     const go_settings = () => {
         alert('Go to Settings')
     };
@@ -22,14 +29,12 @@ const Perfil = (props) => {
         ImagePicker.showImagePicker(options, (response)=>{
             console.log(response)
             if (response.uri) {
-                let foto = {uri: response.uri};
-                props.setPhoto(foto);
-
-                save_avatar(response);
+                save_avatar(response, async (url)=>{
+                    await props.setPhoto({uri: url});
+                });
             }
         });
     };
-    let img = {uri: 'https://images.unsplash.com/photo-1582015752624-e8b1c75e3711?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&q=80'}
 
     return (
         <View style={styles.container}>
@@ -37,13 +42,17 @@ const Perfil = (props) => {
                 <View style={styles.container_config}>
                     <TouchableOpacity onPress={go_settings}>
                         <View style={styles.area_config}>
-                            <Icon style={styles.icon} name="settings" size={30} color="#000" />
+                            <Icon style={styles.icon} name="settings" size={30} color="#252326" />
                         </View>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.container_photo}>
                     <View style={styles.area_avatar}>
-                        <Image style={styles.img_perfil} source={props.photo}/>
+                        {props.photo === null ? 
+                            <IconUser name="user" size={90} color="#252326" />
+                            :
+                            <Image style={styles.img_perfil} source={props.photo}/>
+                        }
                     </View>
                 </View>
             </ImageBackground>
@@ -53,9 +62,8 @@ const Perfil = (props) => {
                 </View>
             </TouchableOpacity>
             <View style={styles.name_container}>
-                <Text style={styles.name}>Jhon Doe</Text>
+                <Text style={styles.name}>{props.name}</Text>
             </View>
-            <Text>{`${props.pct}%`}</Text>
         </View>
     );
 };
@@ -133,6 +141,7 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
         uid: state.user.uid,
+        name: state.user.name,
         photo: state.user.photo,
         pct: state.systema.pct,
     };

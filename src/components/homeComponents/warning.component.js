@@ -6,7 +6,7 @@ const CardWarning = (props) => {
     return (
         <View style={styles.container}>
             <TouchableOpacity>
-                <Image style={styles.bg_Warning} source={{uri: `${props.uri}`}} />
+                <Image style={styles.bg_Warning} source={{uri: `${props.uri}`}} resizeMode="contain"/>
             </TouchableOpacity>
         </View>
     );

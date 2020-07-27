@@ -1,17 +1,19 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import {View, Text, StyleSheet, FlatList, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, FlatList, ScrollView, StatusBar} from 'react-native';
 import BannerComponent from '../../components/videos/banner.component';
 import Card from '../../components/homeComponents/card.component';
-import { db_getName, get_image, get_allImages } from '../../dbFirebase/Sistema';
-import CardWarning from '../../components/homeComponents/warning.component';
+import { db_getName, get_image } from '../../dbFirebase/Sistema';
+import CardWarningHome from '../../components/homeComponents/cardsHome/warningHome';
 import CardDate from '../../components/homeComponents/cardDate.component';
 import Titulos from '../../components/homeComponents/titulos.component';
+import yu_url from '../../api/youtube/youtube.api';
+import CardVideos from '../../components/videos/cardVideos';
 
 const Home = (props) => {
-    let dataImages = [...props.images];
+    const [data, setData] = useState([])
     useEffect(()=>{
         props.getName(props.uid);
 
@@ -20,12 +22,15 @@ const Home = (props) => {
             props.getImage({uri: url});
 
         });
-        //get all images
-        get_allImages((snapshot) =>{
-            dataImages.push({uri: snapshot, key: snapshot});
-            props.getAllImages(dataImages);
-        });
-    },[props.getName, props.getAllImages]);
+        
+        fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=date&q=Igreja%20Batista%20Regular%20parque%20ipe&key=AIzaSyDze8u0YmpbYz0ad6Wn2W7d8hzkVmDSdCI")
+        .then(response => response.json())
+        .then(json => {
+            setData(json.items)
+        })
+    },[props.getName]);
+
+    
 
     const goToPerfil = () => {
         props.navigation.navigate('Perfil');
@@ -33,6 +38,7 @@ const Home = (props) => {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="dark-content" backgroundColor="#FFF"/>
             <ScrollView>
             <BannerComponent
                 uri={props.image}
@@ -46,29 +52,28 @@ const Home = (props) => {
                     title="Avisos"
                     icon="warning"
                 />
-                <FlatList
-                  horizontal
-                  data={props.images}
-                  renderItem={({item})=><CardWarning uri={item.uri} />}
-                  keyExtractor={item=>item.key}
-                />
+                <CardWarningHome />
             </View>
             <View style={styles.card_videos}>
                 <Titulos
                     title="Vídeos"
                     icon="play-circle"
                 />
-                <View style={styles.card_Videos}>
-                 <View style={styles.video}>
-                    <Text>Videos</Text>
-                 </View>
-                 <View style={styles.video}>
-                    <Text>Videos</Text>
-                 </View>
-                 <View style={styles.video}>
-                    <Text>Videos</Text>
-                 </View>
-                </View>
+                <FlatList 
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={data}
+                    renderItem={({item})=><CardVideos data={item.snippet} />}
+                    keyExtractor={item=>item.id.videoId}
+                />
+
+                <FlatList 
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={data}
+                    renderItem={({item})=><CardVideos data={item.snippet} />}
+                    keyExtractor={item=>item.id.videoId}
+                />
             </View>
             </ScrollView>
         </View>
@@ -108,8 +113,8 @@ const mapStateToProps = state => {
         uid: state.user.uid,
         name: state.user.name,
         videosData: state.y_data.videosData,
-        images: state.user.images,
         image: state.user.image,
+        imgYoutube: state.systema.imgYoutube,
     };
 };
 
@@ -117,8 +122,7 @@ const mapDispatchToProps = dispatch => {
     return {
         getName: (uid) => db_getName(uid, dispatch),
         getImage: (image) => dispatch({ type: 'GET_IMAGE', payload: {image} }),
-        getAllImages: (images) => dispatch({ type: 'GET_ALLIMAGES', payload: { images } }),
-        getAllVideos: (videos) => dispatch({ type: 'GET_VIDEOSDATA', payload: {videos} }),
+        getImgYoutube: (data) => dispatch({ type: 'GET_IMGYOUTUBE', payload: { data } }),
     };
 };
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

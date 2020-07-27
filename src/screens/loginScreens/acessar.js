@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable prettier/prettier */
 /* eslint-disable semi */
-import React, { useEffect, useState } from 'react';
-import AsyncStorage from '@react-native-community/async-storage';
+import React, { useEffect } from 'react';
+import {CommonActions} from '@react-navigation/native'
 import {connect} from 'react-redux';
 import {
   View,
@@ -22,21 +22,12 @@ const Acessar = (props) => {
   useEffect(()=>{
     if (props.status === 1){
       Keyboard.dismiss();
-      props.navigation.navigate('MainBottom')
+      props.navigation.dispatch(CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'MainBottom' }]
+    }))
     }
   }, [props.status])
-
-  const [value, setValue] = useState(false)
-  const [newStatus, setNewStatus] = useState(0);
-
-  const valueStorage = async () => {
-    setValue(!value);
-    if (props.status === 1 && value === true) {
-      //gravar no AsyncStorage
-      setNewStatus(props.status)
-      await AsyncStorage.setItem('@props.status', newStatus);
-    }
-  }
 
   return (
     <View style={styles.container}>
@@ -72,9 +63,9 @@ const Acessar = (props) => {
           <Switch
             style={styles.switch}
             trackColor={{ false: "red", true: "blue" }}
-            thumbColor={value ? "blue" : "red"}
-            value={value}
-            onValueChange={valueStorage}
+            thumbColor={props.login ? "blue" : "red"}
+            value={props.login}
+            onValueChange={(login) => props.setLogin(login)}
           />
         </View>
       </View>
@@ -82,7 +73,7 @@ const Acessar = (props) => {
         <C_Button
           backColor={{ backgroundColor: '#710DC2' }}
           title="Acessar"
-          onPress={()=>props.signin(props.email, props.pwd)}
+          onPress={()=>props.signin(props.email, props.pwd, props.login)}
         />
         <Text style={styles.info}>Ainda não tem uma conta?</Text>
         <TouchableOpacity style={styles.b_info}onPress={()=>props.navigation.navigate('Cadastrar')}>
@@ -152,6 +143,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
+    login: state.user.login,
     uid: state.user.uid,
     name: state.user.name,
     email: state.user.email,
@@ -162,9 +154,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    setLogin: (login) => dispatch({type: 'SET_LOGIN', payload: { login }}),
     setEmail: (email) => dispatch({ type:'SET_EMAIL', payload: { email } }),
     setPwd: (pwd) => dispatch({ type:'SET_PWD', payload: { pwd } }),
-    signin: (email, pwd) => db_sigin(email, pwd, dispatch),
+    signin: (email, pwd, login) => db_sigin(email, pwd, login, dispatch),
     getName: (name) => db_getName(name, dispatch),
   }
 }

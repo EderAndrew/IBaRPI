@@ -5,6 +5,7 @@ import Login from '../screens/loginScreens/login';
 import Acessar from '../screens/loginScreens/acessar';
 import Cadastrar from '../screens/loginScreens/cadastrar';
 import MainBottom from '../navigators/mainBottom';
+import SplashScreen from '../screens/splashScreen';
 
 const Stack = createStackNavigator();
 
