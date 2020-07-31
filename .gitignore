@@ -61,4 +61,4 @@ buck-out/
 #Autenticação com firebase
 android/app/google-services.json
 
-src/api/config.js
+src/api/biblia/biblia.api.js

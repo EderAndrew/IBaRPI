@@ -2,6 +2,7 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import { CommonActions } from '@react-navigation/native';
 import {View, Text, StyleSheet, FlatList, ScrollView, StatusBar} from 'react-native';
 import BannerComponent from '../../components/videos/banner.component';
 import Card from '../../components/homeComponents/card.component';
@@ -9,7 +10,7 @@ import { db_getName, get_image } from '../../dbFirebase/Sistema';
 import CardWarningHome from '../../components/homeComponents/cardsHome/warningHome';
 import CardDate from '../../components/homeComponents/cardDate.component';
 import Titulos from '../../components/homeComponents/titulos.component';
-import yu_url from '../../api/youtube/youtube.api';
+import { Culto_louvor } from '../../api/youtube/youtube.api';
 import CardVideos from '../../components/videos/cardVideos';
 
 const Home = (props) => {
@@ -23,14 +24,18 @@ const Home = (props) => {
 
         });
         
-        fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&maxResults=10&order=date&q=Igreja%20Batista%20Regular%20parque%20ipe&key=AIzaSyDze8u0YmpbYz0ad6Wn2W7d8hzkVmDSdCI")
-        .then(response => response.json())
-        .then(json => {
-            setData(json.items)
+        Culto_louvor((json) => {
+            setData(json.items);
         })
     },[props.getName]);
 
-    
+    //mostrar a tela de video
+    const on_Video = () => {
+        props.navigation.dispatch(CommonActions.reset({
+            index: 1,
+            routes: [{ name: 'Video' }]
+        }))
+    }
 
     const goToPerfil = () => {
         props.navigation.navigate('Perfil');
@@ -63,7 +68,7 @@ const Home = (props) => {
                     horizontal
                     showsHorizontalScrollIndicator={false}
                     data={data}
-                    renderItem={({item})=><CardVideos data={item.snippet} />}
+                    renderItem={({item})=><CardVideos onPress={on_Video} data={item.snippet} />}
                     keyExtractor={item=>item.id.videoId}
                 />
 

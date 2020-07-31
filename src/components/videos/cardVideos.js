@@ -1,11 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native'
 
-const CardVideo = (props) => {
-    console.log(props.data)
+const CardVideos = (props) => {
     return(
         <View style={styles.container}>
-            <TouchableOpacity style={styles.img_container} onPress={()=>{}}>
+            <TouchableOpacity style={styles.img_container} onPress={props.onclick}>
                 <Image style={styles.image_video} source={{uri: `${props.data.thumbnails.medium.url}`}} width={200} height={110} resizeMode="contain"/>
             </TouchableOpacity>
             <View style={styles.card_title}>
@@ -40,4 +39,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default CardVideo;
+export default CardVideos;
