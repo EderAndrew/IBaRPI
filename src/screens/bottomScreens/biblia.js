@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
 import Bible from '../../api/biblia/biblia.api'
+import Books from '../../components/bibliaComponents/Books.component'
 
 const Biblia = (props) => {
     const [data, setData] = useState([])
@@ -11,22 +12,21 @@ const Biblia = (props) => {
 
     const allBooks = async () => {
         const data = await Bible.get('books').then(({data})=>data)
-        props.setBooks(data)
-        console.log(props.booksData)
         setData(data);
+    }
+
+    const capitulos = () => {
+        
     }
 
     return(
         <View style={styles.container}>
-            <Text>Tela da Biblia</Text>
+            <Text style={styles.title}>Livros Sagrados</Text>
             <FlatList
                 keyExtractor={item=>item.abbrev.pt}
                 data={data}
-                renderItem={({item})=>{
-                    return (
-                        <Text>{item.name} - {item.abbrev.pt}</Text>
-                    )
-                }}
+                renderItem={({item})=> <Books  abrev={item.abbrev.pt} name={item.name} onPress={capitulos}/>}
+                numColumns={3}
             />
         </View>
     )
@@ -35,7 +35,16 @@ const Biblia = (props) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: '#FFF',
+    },
+    title: {
+        fontSize: 24,
+        color: '#1F1E21',
+        fontWeight: 'bold',
+        alignSelf: 'center',
+        marginVertical: 10
     }
+
 })
 
 const mapStateToProps = state => {
