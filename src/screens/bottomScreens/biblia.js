@@ -11,8 +11,14 @@ const Biblia = (props) => {
         .catch(error=>console.log(error.message))
     },[])  
 
-    const goChapters = (abbrev) => {
-        props.navigation.navigate('Capitulos',{abbrev})
+    const goChapters = (abbrev, name, author, group, chapters) => {
+        props.navigation.navigate('Capitulos',{
+            abbrev,
+            name,
+            author,
+            group,
+            chapters,        
+        })
     }
 
     return(
@@ -21,7 +27,7 @@ const Biblia = (props) => {
             <FlatList
                 keyExtractor={item=>item.abbrev.pt}
                 data={data}
-                renderItem={({item})=> <Books  abrev={item.abbrev.pt} name={item.name} onPress={()=>goChapters(item.abbrev.pt)}/>}
+                renderItem={({item})=> <Books  abrev={item.abbrev.pt} name={item.name} onPress={()=>goChapters(item.abbrev.pt, item.name, item.author, item.group, item.chapters)}/>}
                 numColumns={3}
             />
         </View>
