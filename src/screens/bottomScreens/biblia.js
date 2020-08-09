@@ -1,22 +1,18 @@
 import React, {useEffect, useState} from 'react'
 import {connect} from 'react-redux'
 import { View, Text, StyleSheet, FlatList } from 'react-native'
-import Bible from '../../api/biblia/biblia.api'
+import { allBooks } from '../../api/biblia/biblia.api'
 import Books from '../../components/bibliaComponents/Books.component'
 
 const Biblia = (props) => {
     const [data, setData] = useState([])
     useEffect(()=>{
-        allBooks()
-    },[])
+        allBooks(({data})=>setData(data))
+        .catch(error=>console.log(error.message))
+    },[])  
 
-    const allBooks = async () => {
-        const data = await Bible.get('books').then(({data})=>data)
-        setData(data);
-    }
-
-    const capitulos = () => {
-        
+    const goChapters = (abbrev) => {
+        props.navigation.navigate('Capitulos',{abbrev})
     }
 
     return(
@@ -25,7 +21,7 @@ const Biblia = (props) => {
             <FlatList
                 keyExtractor={item=>item.abbrev.pt}
                 data={data}
-                renderItem={({item})=> <Books  abrev={item.abbrev.pt} name={item.name} onPress={capitulos}/>}
+                renderItem={({item})=> <Books  abrev={item.abbrev.pt} name={item.name} onPress={()=>goChapters(item.abbrev.pt)}/>}
                 numColumns={3}
             />
         </View>

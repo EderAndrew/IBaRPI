@@ -4,7 +4,7 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 const Books = (props) => {
     return (
         <View style={styles.container}>
-            <TouchableOpacity style={styles.book_container} onPress={()=>{}}>
+            <TouchableOpacity style={styles.book_container} onPress={props.onPress}>
                 <Text style={styles.abbrev}>{props.abrev}</Text>
                 <Text style={styles.name}>{props.name}</Text>
             </TouchableOpacity>

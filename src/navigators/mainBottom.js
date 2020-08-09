@@ -4,7 +4,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Ionic from 'react-native-vector-icons/Ionicons';
 import HomeStack from '../navigators/homeStack';
-import Biblia from '../screens/bottomScreens/biblia';
+import BibliaStack from '../navigators/bibliaStack';
 import Oracao from '../screens/bottomScreens/oracao';
 import Doacao from '../screens/bottomScreens/doacao';
 import Mais from '../screens/bottomScreens/mais';
@@ -23,11 +23,11 @@ function MainBottom() {
       <Tab.Screen
         name="Home"
         component={HomeStack}
-        options={{ tabBarIcon: ()=> iconHome }}
+        options={{ tabBarIcon: ()=> iconHome, tabBarVisible: false }}
       />
       <Tab.Screen
         name="Biblia"
-        component={Biblia}
+        component={BibliaStack}
         options={{ tabBarIcon: ()=> iconBible }}
       />
       <Tab.Screen

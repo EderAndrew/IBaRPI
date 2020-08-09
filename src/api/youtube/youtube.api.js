@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export default axios.create({
+const youtube = axios.create({
     baseURL:'https://www.googleapis.com/youtube/v3',
     headers: {
         Authorization: 'Bearer 32463881764-lovdplq8m86ek2i1qcv3b895s4cqipn5.apps.googleusercontent.com',
@@ -8,7 +8,7 @@ export default axios.create({
     }
 })
 export const Culto_louvor = async (callback) => {
-    await axios.get("/search", {
+    await youtube.get("/search", {
         params: {
             part: 'snippet',
             maxResults: 10,
@@ -17,8 +17,7 @@ export const Culto_louvor = async (callback) => {
             type:'video',
             key: 'AIzaSyDze8u0YmpbYz0ad6Wn2W7d8hzkVmDSdCI'
         }
-    }).then(response=>response.json())
-      .then(callback)
+    }).then(callback)
       .catch(error=>{
         console.log(error.message);
       });
