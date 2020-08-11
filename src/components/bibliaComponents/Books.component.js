@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
     container: {
     },
     book_container: {
-      backgroundColor: '#AEE8E7',
+      backgroundColor: '#1F1E21',
       marginVertical: 10,
       height: 80,
       alignItems: 'center',
@@ -28,11 +28,11 @@ const styles = StyleSheet.create({
         fontSize: 24,
         alignSelf: 'center',
         fontWeight:'bold',
-        color: '#1F1E21',
+        color: '#FFF',
     },
     name: {
         fontSize: 15,
-        color: '#1F1E21',
+        color: '#FFF',
         fontWeight: 'bold',
     },
 })

@@ -12,7 +12,7 @@ const Chapters = (props) => {
     const {chapter, setChapter} = props
     
     const [book, setBook] = useState([])
-    const [teste, setTeste] = useState([])
+    const [numberChapters, setNumberChapters] = useState([])
 
     useEffect(()=>{
         getBook(abbrev, chapter, ({data})=>{
@@ -21,16 +21,17 @@ const Chapters = (props) => {
             setBook(itens)
         })
         .catch(error=>console.log(error.message))
-        getChapters()
+        Chapters()
     },[chapter])
-    const getChapters = ()=>{
-        let i = 0
-        while(i <= chapters){
-            i++
-            
+
+    const Chapters = ()=>{
+        let d = []
+        for(let i = 1; i <= chapters; i++){
+            d.push(i)
         }
-        return i
+        setNumberChapters(d)
     }
+
     const chapterRight = () => {
         let n = 0
         n = chapter + 1
@@ -52,8 +53,19 @@ const Chapters = (props) => {
                 <Text style={styles.title}>{name}</Text>
                 <Text style={styles.author}>Autor: {author}</Text>
                 <Text style={styles.book}>Grupo: {group}</Text>
+                <Text>{chapters}</Text>
                 <FlatList
-                    data={}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    keyExtractor={item=>item}
+                    data={numberChapters}
+                    renderItem={({item})=>{
+                        return(
+                            <View style={styles.num_field}>
+                                <Text style={styles.chapters}>{item}</Text>
+                            </View>
+                        )
+                    }}
                 />
             </View>
             <FlatList
@@ -103,8 +115,25 @@ const styles = StyleSheet.create({
         color: '#FFF',
         marginLeft: 10
     },
+    num_field: {
+        width: 50,
+        height: 50,
+        borderWidth: 1,
+        borderColor:'#FFF',
+        marginHorizontal: 10,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius: 100,
+        marginTop: 10
+    },
+    chapters:{
+        color: '#FFF',
+        
+        fontSize: 16,
+        
+    },
     flat_container: {
-        marginTop: -80,
+        marginTop: -60,
     },
     container_buttons: {
         flexDirection:'row',
