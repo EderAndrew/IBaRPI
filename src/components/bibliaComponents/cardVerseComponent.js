@@ -1,13 +1,15 @@
 import React from 'react'
-import {View, Text, StyleSheet} from 'react-native'
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native'
 
 const CardVerses = (props) => {
-    const {number, text} = props
-
+    const {number, name, text} = props
+    
     return(
-        <View style={styles.card}>
-            <Text style={styles.verse}>{number} - {text}</Text>
-        </View>
+        <TouchableOpacity onPress={()=>alert(`${number} - ${text} - ${name}`)}>
+            <View style={styles.card}>
+                <Text style={styles.verse}>{number} - {text}</Text>
+            </View>
+        </TouchableOpacity>
     )
 }
 

@@ -123,3 +123,17 @@ export const get_avatar = async (uid, callback) => {
   }
   
 }
+
+//Save Verses
+export const save_verses = async (id, book, chapter, verse, text) => {
+  try {
+    await firebase.firestore().collection('verses').doc(id).set({
+      book_name: book, 
+      chapter: chapter, 
+      number_verse: verse, 
+      text: text,
+    })
+  } catch (error) {
+    console.log(error.message)
+  }
+}

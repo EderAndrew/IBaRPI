@@ -3,10 +3,15 @@ import {View, Text, StyleSheet} from 'react-native'
 import CardVerses from '../bibliaComponents/cardVerseComponent'
 
 const Verses = (props) => {
-    const { verses } = props
+    const { name, verses } = props
     return (
         <View style={styles.container}>           
-            {verses.map(resp=><CardVerses key={resp.number} number={resp.number} text={resp.text}/>)}
+            {verses.map(resp=><CardVerses
+                key={resp.number}
+                number={resp.number}
+                text={resp.text}
+                name={name}/>
+            )}
         </View>
     )
 }

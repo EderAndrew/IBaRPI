@@ -9,11 +9,16 @@ import Icon from 'react-native-vector-icons/FontAwesome5'
 const Chapters = (props) => {
     const route = useRoute()
     const {abbrev, name, author, group, chapters} = route.params
-    const {chapter, setChapter} = props
+    const {chapter, setChapter} = props //redux
     
-    const [book, setBook] = useState([])
-    const [numberChapters, setNumberChapters] = useState([])
+    const [book, setBook] = useState([])//state para manipular os capitulos
+    const [numberChapters, setNumberChapters] = useState([])//state para manipular os numeros dos capitulos
 
+    //id para os numeros dos capitulos. Cria um id para cada item do array
+    let numkey = Math.floor(new Date() / 1000);
+
+    //Ao iniciar a tela, ja mostra os capitulos
+    //Qualquer alteração nos capitulos é monitorado
     useEffect(()=>{
         getBook(abbrev, chapter, ({data})=>{
             let itens = []
@@ -24,6 +29,7 @@ const Chapters = (props) => {
         Chapters()
     },[chapter])
 
+    //Preenche a quantidade de capitulos dentro de um array
     const Chapters = ()=>{
         let d = []
         for(let i = 1; i <= chapters; i++){
@@ -32,12 +38,14 @@ const Chapters = (props) => {
         setNumberChapters(d)
     }
 
+    //Ao apertar para a direita, aumenta um capitulo
     const chapterRight = () => {
         let n = 0
         n = chapter + 1
         setChapter(n)
     }
 
+    //ao apertar para a esquerda, diminui um capitulo
     const chapterLeft = () => {
         let n = 0
         n = chapter - 1
@@ -47,13 +55,25 @@ const Chapters = (props) => {
         }
     }
 
+    //Escolher o capitulo que quer ler
+    const chooseChapter = (item) => {
+        getBook(abbrev, item, ({data})=>{
+            let itens = []
+            itens.push(data)
+            setBook(itens)
+        })
+        .catch(error=>console.log(error.message))
+        //Iguala o numero ao capitulo
+        setChapter(item)
+    }
+
     return(
         <View style={styles.container}>
             <View style={styles.card_title}>
                 <Text style={styles.title}>{name}</Text>
                 <Text style={styles.author}>Autor: {author}</Text>
                 <Text style={styles.book}>Grupo: {group}</Text>
-                <Text>{chapters}</Text>
+                <Text style={styles.chapt}>Capitulos: {chapters}</Text>
                 <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -61,9 +81,19 @@ const Chapters = (props) => {
                     data={numberChapters}
                     renderItem={({item})=>{
                         return(
-                            <View style={styles.num_field}>
-                                <Text style={styles.chapters}>{item}</Text>
-                            </View>
+                            <View>
+                                {item === chapter ?
+                                    <View style={styles.num_field}>
+                                        <Text style={styles.chapters_noFill}>{item}</Text>
+                                    </View>
+                                    :
+                                    <TouchableOpacity onPress={()=>chooseChapter(item)}>
+                                        <View style={styles.num_field_fill}>
+                                            <Text style={styles.chapters}>{item}</Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                }
+                            </View>                            
                         )
                     }}
                 />
@@ -115,7 +145,23 @@ const styles = StyleSheet.create({
         color: '#FFF',
         marginLeft: 10
     },
+    chapt: {
+        color: '#FFF',
+        marginLeft: 10 
+    },
     num_field: {
+        width: 50,
+        height: 50,
+        borderWidth: 1,
+        borderColor:'#FFF',
+        marginHorizontal: 10,
+        justifyContent:'center',
+        alignItems:'center',
+        borderRadius: 100,
+        marginTop: 10,
+        backgroundColor:'#FFF'
+    },
+    num_field_fill: {
         width: 50,
         height: 50,
         borderWidth: 1,
@@ -126,11 +172,14 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         marginTop: 10
     },
+    chapters_noFill: {
+        color: '#000',
+        fontSize: 16,
+        fontWeight:'bold'
+    },
     chapters:{
         color: '#FFF',
-        
         fontSize: 16,
-        
     },
     flat_container: {
         marginTop: -60,

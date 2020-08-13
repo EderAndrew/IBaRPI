@@ -1,7 +1,6 @@
 /* eslint-disable prettier/prettier */
 const initialState = {
   status:0,
-  login: false,
   uid:'',
   name:'',
   email: '',
