@@ -77,7 +77,7 @@ const Chapters = (props) => {
                 <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
-                    keyExtractor={item=>item}
+                    keyExtractor={item=>item.toString()}
                     data={numberChapters}
                     renderItem={({item})=>{
                         return(

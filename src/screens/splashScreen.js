@@ -4,14 +4,15 @@ import { connect } from 'react-redux';
 import { View, Image, StyleSheet, Text } from 'react-native'
 
 const Splash = (props) => {
+    const { login, navigation } = props
     useEffect(()=>{
-        if (props.login.toString === "false" && props.uid) {
-            props.navigation.dispatch(CommonActions.reset({
+        if (login === false) {
+            navigation.dispatch(CommonActions.reset({
                 index: 0,
                 routes: [{ name: 'Login' }]
             }))
         } else {
-            props.navigation.dispatch(CommonActions.reset({
+            navigation.dispatch(CommonActions.reset({
                 index: 0,
                 routes: [{ name: 'MainBottom' }]
             }))
@@ -54,8 +55,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        uid: state.user.uid,
-        login: state.user.login,
+        login: state.sys_persist.login,
     }
 }
 

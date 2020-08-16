@@ -69,17 +69,16 @@ const Cadastrar = (props) => {
           <Text>Manter Logado?</Text>
           <Switch
             style={styles.switch}
-            trackColor={{ false: "red", true: "blue" }}
-            thumbColor={props.login ? "blue" : "red"}
+            trackColor={{ false: "#B32922", true: "#28559A" }}
+            thumbColor={props.login ? "#28559A" : "#B32922"}
             value={props.login}
             onValueChange={(login) => props.setLogin(login)}
           />
-          <Text>{props.login.toString()}</Text>
         </View>
       </View>
       <View style={styles.container_3}>
         <C_Button
-          backColor={{ backgroundColor: '#CC4C12' }}
+          backColor={{ backgroundColor: '#03061A' }}
           title="Cadastrar"
           onPress={()=>props.signup(props.name, props.email, props.pwd)}
         />
@@ -136,7 +135,7 @@ const styles = StyleSheet.create({
     },
     b_title: {
       fontSize: 18,
-      color: '#710DC2',
+      color: '#B32922',
       fontWeight: 'bold',
       fontFamily: 'Roboto-Bold',
     },
@@ -147,7 +146,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    login: state.user.login,
+    login: state.sys_persist.login,
     name: state.user.name,
     email: state.user.email,
     pwd: state.user.pwd,

@@ -50,7 +50,7 @@ const Home = (props) => {
                 perfil={goToPerfil}
             />
             <Text>{props.videosData}</Text>
-            <CardDate name={props.name}/>
+            <CardDate name={props.name.split(' ')[0]}/>
             <Card />
             <View style={styles.card_warning}>
                 <Titulos

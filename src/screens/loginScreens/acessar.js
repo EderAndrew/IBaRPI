@@ -34,7 +34,7 @@ const Acessar = (props) => {
       <StatusBar barStyle="dark-content" backgroundColor="#FFF"/>
       <View style={styles.container_1}>
         <TouchableOpacity onPress={()=>props.navigation.navigate('Login')}>
-          <Icon name="arrow-left-l" size={60} color="#000" />
+          <Icon name="arrow-left-l" size={60} color="#03061A" />
         </TouchableOpacity>
         <Text style={styles.title}>Acessar</Text>
       </View>
@@ -62,8 +62,8 @@ const Acessar = (props) => {
           </View>
           <Switch
             style={styles.switch}
-            trackColor={{ false: "red", true: "blue" }}
-            thumbColor={props.login ? "blue" : "red"}
+            trackColor={{ false: "#B32922", true: "#28559A" }}
+            thumbColor={props.login ? "#28559A" : "#B32922"}
             value={props.login}
             onValueChange={(login) => props.setLogin(login)}
           />
@@ -71,7 +71,8 @@ const Acessar = (props) => {
       </View>
       <View style={styles.container_3}>
         <C_Button
-          backColor={{ backgroundColor: '#710DC2' }}
+          backColor={{ backgroundColor: '#FFF', borderWidth: 1, borderColor:'#03061A' }}
+          titleColor={{ color: '#03061A' }}
           title="Acessar"
           onPress={()=>props.signin(props.email, props.pwd, props.login)}
         />
@@ -105,6 +106,7 @@ const styles = StyleSheet.create({
     title: {
         fontSize: 28,
         fontFamily: 'Roboto-Medium',
+        color: '#03061A',
     },
     formulario: {
       marginTop: '12%',
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
     },
     b_title: {
       fontSize: 18,
-      color: '#CC4C12',
+      color: '#B32922',
       fontWeight: 'bold',
       fontFamily: 'Roboto-Bold',
     },
@@ -134,7 +136,7 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between',
     },
     forget_pwd: {
-      color: 'red',
+      color: '#B32922',
     },
     switch: {
       alignSelf: 'flex-start',
@@ -143,7 +145,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    login: state.user.login,
+    login: state.sys_persist.login,
     uid: state.user.uid,
     name: state.user.name,
     email: state.user.email,

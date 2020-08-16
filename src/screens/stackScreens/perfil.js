@@ -6,6 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import IconUser from 'react-native-vector-icons/FontAwesome';
 import ImagePicker from 'react-native-image-picker';
 import { save_avatar, get_avatar } from '../../dbFirebase/Sistema';
+import PerfilBox from '../../components/perfilComponent/perfilBox.component'
 
 const Perfil = (props) => {
     useEffect(()=>{
@@ -64,6 +65,8 @@ const Perfil = (props) => {
             <View style={styles.name_container}>
                 <Text style={styles.name}>{props.name}</Text>
             </View>
+            <PerfilBox title="Minhas Orações" />
+            <PerfilBox title="Meus Versiculos" />
         </View>
     );
 };

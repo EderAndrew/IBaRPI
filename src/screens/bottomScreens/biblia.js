@@ -19,6 +19,7 @@ const Biblia = (props) => {
             group,
             chapters,        
         })
+        props.setChapter(1)
     }
 
     return(
@@ -57,7 +58,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setBooks: (data) => dispatch({type: 'SET_BOOKS', payload: { data }})
+        setBooks: (data) => dispatch({type: 'SET_BOOKS', payload: { data }}),
+        setChapter: (chapter) => dispatch({ type: 'SET_CHAPTER', payload: { chapter } })
     }
 }
 

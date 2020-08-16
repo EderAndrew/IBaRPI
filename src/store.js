@@ -6,12 +6,11 @@ import Reducers from './reducers/index';
 const persistedReducer = persistReducer({
     key:'root',
     storage: AsyncStorage,
-    whiteList:['sys_persist'], //manter Gravado
+    whiteList:['sys_persist','biblia'], //manter Gravado
     blacklist:[
         'user', 
         'y_data', 
         'systema', 
-        'biblia',
     ],//zerar gravação
 }, Reducers)
 

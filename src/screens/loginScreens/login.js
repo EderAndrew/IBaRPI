@@ -26,18 +26,13 @@ const Login = (props) => {
       </View>
       <View style={styles.container_2}>
       <C_Button
-        backColor={{ backgroundColor: 'blue' }}
-        Icon={facebookIcon}
-        title="Acessar com o Facebook"
-        onPress={()=>{}}
-      />
-      <C_Button
-        backColor={{ backgroundColor: '#CC4C12' }}
+        backColor={{ backgroundColor: '#03061A' }}
         title="Fazer cadastro"
         onPress={()=> props.navigation.navigate('Cadastrar')}
       />
       <C_Button
-        backColor={{ backgroundColor: '#710DC2' }}
+        backColor={{ backgroundColor: '#FFF', borderWidth: 1, borderColor: '#03061A' }}
+        titleColor={{ color: '#03061A' }}
         title="Fazer Acesso"
         onPress={()=> props.navigation.navigate('Acessar')}
       />
@@ -76,7 +71,7 @@ const styles = StyleSheet.create({
   version: {
     marginTop: '42%',
     fontSize: 12,
-    color: '#ccc'
+    color: '#ccc',
   },
 });
 

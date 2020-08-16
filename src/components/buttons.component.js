@@ -4,7 +4,7 @@ import {StyleSheet, Text, TouchableOpacity} from 'react-native'
 const C_Button = (props) => {
     return(
         <TouchableOpacity style={{...styles.container, ...props.backColor}} onPress={props.onPress}>
-            <Text style={styles.title}>{props.Icon} {props.title}</Text>
+            <Text style={{...styles.title, ...props.titleColor}}>{props.Icon} {props.title}</Text>
         </TouchableOpacity>
     )
 }
@@ -12,10 +12,10 @@ const C_Button = (props) => {
 const styles = StyleSheet.create({
     container: {
         width: 340,
-        height: 50,
+        height: 60,
         justifyContent: 'center',
         alignSelf: 'center',
-        borderRadius: 10,
+        borderRadius: 50,
         marginVertical: '6%'
     },
     title: {
