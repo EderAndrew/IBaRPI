@@ -143,10 +143,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        uid: state.user.uid,
-        name: state.user.name,
-        photo: state.user.photo,
-        pct: state.systema.pct,
+        uid: state.userReducer.uid,
+        name: state.userReducer.name,
+        photo: state.userReducer.photo,
+        pct: state.systemReducer.pct,
     };
 };
 

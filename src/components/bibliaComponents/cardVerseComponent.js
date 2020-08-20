@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return{
-        toogle_verses: state.sys_persist.toogle_verses,
+        toogle_verses: state.systemReducer.toogle_verses,
     }
 }
 

@@ -19,21 +19,33 @@ import C_Button from '../../components/buttons.component';
 import { db_sigin, db_getName } from '../../dbFirebase/Sistema'
 
 const Acessar = (props) => {
+  const { 
+    status, 
+    navigation, 
+    email, 
+    pwd, 
+    login,
+    setEmail,
+    setPwd,
+    setLogin,
+    signin
+  } = props
+
   useEffect(()=>{
-    if (props.status === 1){
+    if (status === 1){
       Keyboard.dismiss();
-      props.navigation.dispatch(CommonActions.reset({
+      navigation.dispatch(CommonActions.reset({
         index: 0,
         routes: [{ name: 'MainBottom' }]
     }))
     }
-  }, [props.status])
+  }, [status])
 
   return (
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF"/>
       <View style={styles.container_1}>
-        <TouchableOpacity onPress={()=>props.navigation.navigate('Login')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Login')}>
           <Icon name="arrow-left-l" size={60} color="#03061A" />
         </TouchableOpacity>
         <Text style={styles.title}>Acessar</Text>
@@ -44,15 +56,15 @@ const Acessar = (props) => {
             keyboardType="email-address"
             style={styles.input}
             placeholder="Email"
-            value={props.email}
-            onChangeText={t => props.setEmail(t)}
+            value={email}
+            onChangeText={t => setEmail(t)}
           />
           <TextInput
             secureTextEntry={true}
             style={styles.input}
             placeholder="Senha"
-            value={props.pwd}
-            onChangeText={t => props.setPwd(t)}
+            value={pwd}
+            onChangeText={t => setPwd(t)}
           />
           <View style={styles.card_switch}>
             <Text>Me manter Logado</Text>
@@ -63,9 +75,9 @@ const Acessar = (props) => {
           <Switch
             style={styles.switch}
             trackColor={{ false: "#B32922", true: "#28559A" }}
-            thumbColor={props.login ? "#28559A" : "#B32922"}
-            value={props.login}
-            onValueChange={(login) => props.setLogin(login)}
+            thumbColor={login ? "#28559A" : "#B32922"}
+            value={login}
+            onValueChange={(logIn) => setLogin(logIn)}
           />
         </View>
       </View>
@@ -74,10 +86,10 @@ const Acessar = (props) => {
           backColor={{ backgroundColor: '#FFF', borderWidth: 1, borderColor:'#03061A' }}
           titleColor={{ color: '#03061A' }}
           title="Acessar"
-          onPress={()=>props.signin(props.email, props.pwd, props.login)}
+          onPress={()=>signin(email, pwd, login)}
         />
         <Text style={styles.info}>Ainda não tem uma conta?</Text>
-        <TouchableOpacity style={styles.b_info}onPress={()=>props.navigation.navigate('Cadastrar')}>
+        <TouchableOpacity style={styles.b_info}onPress={()=>navigation.navigate('Cadastrar')}>
           <Text style={styles.b_title}>Cadastrar</Text>
         </TouchableOpacity>
       </View>
@@ -145,12 +157,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    login: state.sys_persist.login,
-    uid: state.user.uid,
-    name: state.user.name,
-    email: state.user.email,
-    pwd: state.user.pwd,
-    status: state.user.status,
+    login: state.systemReducer.login,
+    uid: state.userReducer.uid,
+    name: state.userReducer.name,
+    email: state.userReducer.email,
+    pwd: state.userReducer.pwd,
+    status: state.userReducer.status,
   }
 }
 

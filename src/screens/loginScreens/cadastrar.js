@@ -20,11 +20,25 @@ import C_Button from '../../components/buttons.component';
 import { db_register } from '../../dbFirebase/Sistema'
 
 const Cadastrar = (props) => {
+  const { 
+    name,
+    email,
+    pwd,
+    status,
+    navigation,
+    setName,
+    setEmail,
+    setPwd,
+    login,
+    setLogin,
+    signup
+  } = props
+  
   useEffect(()=>{
-    if (props.nome !== null && props.email !== null && props.pwd !== null ) {
-      if (props.status === 1){
+    if (name !== null && email !== null && pwd !== null ) {
+      if (status === 1){
         Keyboard.dismiss();
-        props.navigation.dispatch(CommonActions.reset({
+        navigation.dispatch(CommonActions.reset({
           index: 0,
           routes: [{ name: 'MainBottom' }]
       }))
@@ -38,7 +52,7 @@ const Cadastrar = (props) => {
     <View style={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="#FFF"/>
       <View style={styles.container_1}>
-        <TouchableOpacity onPress={()=>props.navigation.navigate('Login')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('Login')}>
           <Icon name="arrow-left-l" size={60} color="#000" />
         </TouchableOpacity>
         <Text style={styles.title}>Cadastrar</Text>
@@ -48,31 +62,31 @@ const Cadastrar = (props) => {
           <TextInput
             style={styles.input}
             placeholder="Nome"
-            value={props.name}
-            onChangeText={n=>props.setName(n)}
+            value={name}
+            onChangeText={n=>setName(n)}
           />
           <TextInput
             autoCapitalize="none"
             keyboardType="email-address"
             style={styles.input}
             placeholder="Email"
-            value={props.email}
-            onChangeText={t => props.setEmail(t)}
+            value={email}
+            onChangeText={t => setEmail(t)}
           />
           <TextInput
             secureTextEntry={true}
             style={styles.input}
             placeholder="Senha"
-            value={props.pwd}
-            onChangeText={t => props.setPwd(t)}
+            value={pwd}
+            onChangeText={t => setPwd(t)}
           />
           <Text>Manter Logado?</Text>
           <Switch
             style={styles.switch}
             trackColor={{ false: "#B32922", true: "#28559A" }}
-            thumbColor={props.login ? "#28559A" : "#B32922"}
-            value={props.login}
-            onValueChange={(login) => props.setLogin(login)}
+            thumbColor={login ? "#28559A" : "#B32922"}
+            value={login}
+            onValueChange={(logIn) => setLogin(logIn)}
           />
         </View>
       </View>
@@ -80,10 +94,10 @@ const Cadastrar = (props) => {
         <C_Button
           backColor={{ backgroundColor: '#03061A' }}
           title="Cadastrar"
-          onPress={()=>props.signup(props.name, props.email, props.pwd)}
+          onPress={()=>signup(name, email, pwd)}
         />
         <Text style={styles.info}> Já tem uma conta?</Text>
-        <TouchableOpacity style={styles.b_info}onPress={()=>props.navigation.navigate('Acessar')}>
+        <TouchableOpacity style={styles.b_info}onPress={()=>navigation.navigate('Acessar')}>
           <Text style={styles.b_title}>Acessar</Text>
         </TouchableOpacity>
       </View>
@@ -146,12 +160,12 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
   return {
-    login: state.sys_persist.login,
-    name: state.user.name,
-    email: state.user.email,
-    pwd: state.user.pwd,
-    status: state.user.status,
-    uid: state.user.uid,
+    login: state.systemReducer.login,
+    name: state.userReducer.name,
+    email: state.userReducer.email,
+    pwd: state.userReducer.pwd,
+    status: state.userReducer.status,
+    uid: state.userReducer.uid,
   }
 }
 

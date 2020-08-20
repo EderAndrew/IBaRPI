@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native'
 const Oracao = () => {
     return(
         <View>
-            <Text>Tela da Oração</Text>
+            <Text>Deixe um pedido de Oração</Text>
         </View>
     )
 }

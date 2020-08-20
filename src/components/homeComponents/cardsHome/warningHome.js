@@ -28,7 +28,7 @@ const CardWarningHome = (props) => {
 }
 const mapStateToProps = state => {
     return {
-        images: state.user.images,
+        images: state.userReducer.images,
     }
 }
 

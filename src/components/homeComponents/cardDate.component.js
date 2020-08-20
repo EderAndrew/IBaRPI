@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        date: state.systema.date,
+        date: state.systemReducer.date,
     };
 };
 

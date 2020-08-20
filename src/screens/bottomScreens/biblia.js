@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        booksData: state.biblia.booksData,
+        booksData: state.bibliaReducer.booksData,
     }
 }
 

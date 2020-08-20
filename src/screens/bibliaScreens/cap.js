@@ -194,8 +194,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        book: state.biblia.book,
-        chapter: state.biblia.chapter,
+        book: state.bibliaReducer.book,
+        chapter: state.bibliaReducer.chapter,
     }
 }
 

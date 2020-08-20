@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        login: state.sys_persist.login,
+        login: state.systemReducer.login,
     }
 }
 

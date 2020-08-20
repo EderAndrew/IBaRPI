@@ -115,11 +115,10 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        uid: state.user.uid,
-        name: state.user.name,
-        videosData: state.y_data.videosData,
-        image: state.user.image,
-        imgYoutube: state.systema.imgYoutube,
+        uid: state.userReducer.uid,
+        name: state.userReducer.name,
+        image: state.userReducer.image,
+        imgYoutube: state.systemReducer.imgYoutube,
     };
 };
 
