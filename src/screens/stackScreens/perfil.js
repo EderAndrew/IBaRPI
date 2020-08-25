@@ -32,7 +32,7 @@ const Perfil = (props) => {
             if (response.uri) {
                 save_avatar(response, async (url)=>{
                     await props.setPhoto({uri: url});
-                });
+                })
             }
         });
     };

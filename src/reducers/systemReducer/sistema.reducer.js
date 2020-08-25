@@ -4,7 +4,8 @@ const initialState = {
     dayMsg: '',
     pct: 0,
     login: false,
-    toogle_verses: false
+    toogle_verses: false,
+    pray:[]
 };
 
 export default (state = initialState, action) => {
@@ -21,6 +22,8 @@ export default (state = initialState, action) => {
             return { ...state, login: action.payload.login }
         case 'SET_VERSES':
             return { ...state, toogle_verses: action.payload.toogle_verses }
+        case 'GET_PRAY':
+            return { ...state, pray: action.payload.pray }
         default: {
             return {...state};
         }

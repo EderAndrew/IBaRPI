@@ -104,7 +104,7 @@ export const save_avatar = (response, callback) => {
 
     let upload = firebase.storage().ref(`${uid}`).child('avatar').put(file)
 
-    upload.on('state_changed', snapshot => {}, err=>{
+    await upload.on('state_changed', snapshot => {}, err=>{
       rej(err)
     },
     async () => {
@@ -139,4 +139,71 @@ export const save_verses = async (book, chapter, verse, text) => {
   } catch (error) {
     console.log(error.message)
   }
+}
+
+//save pray
+export const save_myPray = async (uid, id, img, name, pray) => {
+  try {
+    await firebase.firestore().collection('users').doc(uid).collection('pray').add({
+      id: id,
+      img: img,
+      name: name,
+      pray: pray,
+      friend: 0,
+      heart: 0
+    })
+    .then(()=>save_pray_in_public(uid, id, name, img, pray))
+    .catch(error=>console.log('Erro ao salvar Oração: '+ error.message))
+  }catch(error){
+    console.log(error.message)
+  }
+}
+
+//save in a new paste for the feed
+const save_pray_in_public = async (uid, id, name, img, pray  ) => {
+  try{
+    await firebase.firestore().collection('publicPray').doc(uid).set({
+      id: id,
+      name: name,
+      img: img,
+      pray: pray,
+      friend: 0,
+      heart: 0
+    })
+    .then(()=>console.log('Salvo na pasta publica'))
+    .catch(error=>console.log(error.message))
+  }catch(error){
+    console.log(error.message)
+  }
+}
+
+//update image on firestore case the user change the photo on perfil page!
+export const update_img = async (uid, photo) => {
+  try {
+    await firebase.firestore().collection('users').doc(uid).collection('pray').get()
+    .then(snapshot => {
+      snapshot.docs.forEach(item=>{
+        console.log(item)
+        firebase.firestore().collection('users').doc(uid).collection('pray').doc(item.id)
+        .update({
+          img: photo
+        })
+      })
+    })
+  } catch(error){
+    console.log(error.message)
+  }
+}
+
+//Get all Prays
+export const get_prays = async (uid, callback) => {
+  try{
+    await firebase.firestore().collection('users').doc(uid).collection('pray').get()
+    .then(snapshot => {
+      snapshot.docs.forEach(callback)
+    })
+  }catch(error){
+    console.log(error.message)
+  }
+  
 }

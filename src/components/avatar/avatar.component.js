@@ -3,13 +3,13 @@ import React, { useEffect } from 'react';
 import {connect} from 'react-redux';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { View, Image, StyleSheet, TouchableOpacity } from 'react-native';
-import { get_avatar } from '../../dbFirebase/Sistema'
+import { get_avatar, update_img } from '../../dbFirebase/Sistema'
 
 const Avatar = (props) => {
     useEffect(()=>{
         get_avatar(props.uid, async (url)=>{
             await props.setPhoto({uri: url})
-        })
+        }).then(()=>update_img(props.uid, props.photo))
     },[])
 
     return (
