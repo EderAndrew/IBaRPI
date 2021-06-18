@@ -1,7 +1,26 @@
 import React from 'react'
-import { View, Text, StyleSheet, Image } from 'react-native'
+import {connect} from 'react-redux'
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
+import { sumHeart } from '../../dbFirebase/Sistema'
+import Icon from 'react-native-vector-icons/Ionicons'
+import IconPray from 'react-native-vector-icons/FontAwesome5'
 
 const PrayContainer = props => {
+    const handleHeart = () => {
+        let s = 0
+        s += 1
+        sumHeart(props.uid, props.id, s)
+
+    }
+
+    const handlePray = () => {
+        //boleano coloca flag como true para coração e false para oração
+        //caso true
+            //soma 1 ao coração
+        //caso false e coração for maior que zero
+            //subtrai 1 de coração
+    }
+
     return(
         <View style={styles.container}>
         <View style={styles.boxContainer}>
@@ -9,13 +28,17 @@ const PrayContainer = props => {
                 <Image style={styles.image} source={props.img}/> 
             </View>
             <View style={styles.box}>
-                <Text>{props.name}</Text>
+                <Text style={styles.box_name}>{props.name}</Text>
                 <Text>{props.pray}</Text>
             </View>
         </View>
         <View style={styles.boxIcons}>
-            <Text style={styles.icon}>heart: {props.heart}</Text>
-            <Text style={styles.icon}>Friend: {props.friend}</Text>
+            <TouchableOpacity onPress={handleHeart}>
+                <Icon style={styles.image_icon} name="heart" size={25} color="red" />
+            </TouchableOpacity>
+            <Text style={styles.icon}>{props.heart}</Text>
+            <IconPray style={styles.image_icon} name="pray" size={25} color="blue" />
+            <Text style={styles.icon}>{props.friend}</Text>
         </View>
         </View>
     )
@@ -50,13 +73,25 @@ const styles = StyleSheet.create({
         width:'80%',
         marginLeft: 10,
     },
+    box_name: {
+        fontSize: 18,
+    },
     boxIcons: {
         flexDirection: 'row',
-        alignSelf: 'center'
+    },
+    image_icon:{
+        marginLeft: 30,
     },
     icon: {
-        marginLeft: 15
+        alignSelf:'flex-end',
+        fontSize: 10
     }
 })
 
-export default PrayContainer
+const mapStateToProps = state => {
+    return {
+        uid: state.userReducer.uid
+    }
+}
+
+export default  connect(mapStateToProps)(PrayContainer)

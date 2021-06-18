@@ -23,8 +23,8 @@ const ModalPray = props => {
     return(
         <Modal visible={props.visible} animationType="slide">
             <View style={styles.container}>
-                <View>
-                    <Text>Escreva seu pedido de Oração para que as pessoas possam orar por você e por sua familia!</Text>
+                <View style={styles.box_title}>
+                    <Text style={styles.title}>Escreva seu pedido de Oração para que as pessoas possam orar por você e por sua familia!</Text>
                 </View>
                 <View style={styles.textArea}>
                     <TextInput
@@ -51,6 +51,18 @@ const ModalPray = props => {
 const styles = StyleSheet.create({
     container:{
         flex: 1,
+    },
+    box_title: {
+        height: 80,
+        borderBottomWidth: 1,
+        borderColor:'#DDD',
+        justifyContent: 'center',
+        alignContent:'center'
+    },
+    title: {
+        marginHorizontal: 10,
+        alignSelf:'center',
+        textAlign:'center'
     },
     textArea:{
         borderWidth: 1,

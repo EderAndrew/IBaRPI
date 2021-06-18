@@ -15,6 +15,7 @@ import CardVideos from '../../components/videos/cardVideos';
 
 const Home = (props) => {
     const [data, setData] = useState([])
+    
     useEffect(()=>{
         props.getName(props.uid);
 
@@ -27,8 +28,10 @@ const Home = (props) => {
         Culto_louvor((json) => {
             setData(json.items);
         })
+
     },[props.getName]);
 
+   
     //mostrar a tela de video
     const on_Video = () => {
         props.navigation.dispatch(CommonActions.reset({

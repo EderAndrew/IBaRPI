@@ -36,10 +36,10 @@ const Oracao = (props) => {
                         pray={item.pray}
                         heart={item.heart}
                         friend={item.friend}
+                        id={item.id}
                     />}
                     keyExtractor={item=>item.id}
                 />
-                
             </View>
             <View style={styles.prayButton}>
                 <Write onPress={showModal} />
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         marginRight: 20,
         marginBottom: 20,
         alignItems: 'center',
-        borderRadius: 50
+        borderRadius: 50,
     }
 })
 

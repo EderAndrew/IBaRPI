@@ -16,7 +16,7 @@ const Card = () => {
         </TouchableOpacity>
       </View>
       <Text style={styles.text_vers}>O SENHOR é o meu pastor, nada me faltará.</Text>
-        <Text style={styles.vers}>Salmos 23:1</Text>
+      <Text style={styles.vers}>Salmos 23:1</Text>
       </View>
   );
 };

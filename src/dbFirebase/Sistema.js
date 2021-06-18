@@ -207,3 +207,11 @@ export const get_prays = async (uid, callback) => {
   }
   
 }
+
+//Para adicionar 1 ao coração ou na oração
+export const sumHeart = async (uid, id, heart) => {
+  await firebase.firestore().collection('users').doc(uid).collection('pray').doc(id)
+  .update({
+    heart: heart
+  })
+}

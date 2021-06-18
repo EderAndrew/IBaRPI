@@ -5,11 +5,12 @@ import { get_allImages } from '../../../dbFirebase/Sistema'
 import CardWarning from '../warning.component';
 
 const CardWarningHome = (props) => {
-    let dataImages = [...props.images];
+    let dataImages = [];
+
     useEffect(()=>{
         //get all images
         get_allImages((snapshot) =>{
-            dataImages.push({uri: snapshot, key: snapshot});
+            dataImages.push(snapshot);
             props.getAllImages(dataImages);
         });
     },[])
@@ -20,8 +21,8 @@ const CardWarningHome = (props) => {
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 data={props.images}
-                renderItem={({item})=><CardWarning uri={item.uri} />}
-                keyExtractor={item=>item.key}
+                renderItem={({item})=><CardWarning uri={item} />}
+                keyExtractor={item=>item}
             />
         </View>
     )
@@ -37,4 +38,5 @@ const mapDispatchToProps = dispatch => {
         getAllImages: (images) => dispatch({ type: 'GET_ALLIMAGES', payload: { images } }),
     }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(CardWarningHome)
